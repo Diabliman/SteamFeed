@@ -5,7 +5,7 @@ import androidx.room.*
 @Dao
 interface GameDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertAll(vararg games: Game)
+    fun insertAll(games: List<Game>)
 
     @Delete
     fun delete(game: Game)
@@ -16,9 +16,9 @@ interface GameDao {
     @Query("SELECT * FROM game WHERE name LIKE :search")
     fun findGamesByNameStart(search: String): List<Game>
 
-    @Query("UPDATE game SET subbed=1 where id=:id")
+    @Query("UPDATE game SET subbed=1 where appid=:id")
     fun subGame(id: String)
 
-    @Query("UPDATE game SET subbed=0 where id=:id")
+    @Query("UPDATE game SET subbed=0 where appid=:id")
     fun unSubGame(id: String)
 }
