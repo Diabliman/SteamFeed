@@ -1,12 +1,17 @@
 package com.eicnam.steamfeed.service
 
-import java.net.URL
+import com.eicnam.steamfeed.model.Applist
+import com.eicnam.steamfeed.model.News
+import retrofit2.Response
+import retrofit2.http.GET
+import retrofit2.http.Path
 
-class ApiService {
+interface ApiService {
 
-    fun getGamesJson():String{
-        val apiResponse = URL("http://api.steampowered.com/ISteamApps/GetAppList/v0002/").readText()
-        return apiResponse
-    }
+    @GET("GetAppList/v0002/")
+    suspend fun getGames(): Response<Applist>
+
+    @GET("GetNewsForApp/v0002/?appid={id}&count=3")
+    suspend fun getNewsPerGames(@Path("id") id: String): Response<MutableList<News>>
 
 }

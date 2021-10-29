@@ -1,23 +1,31 @@
 package com.eicnam.steamfeed
 
 import android.os.Bundle
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.eicnam.steamfeed.databinding.ActivityMainBinding
+import com.eicnam.steamfeed.model.Applist
+import com.eicnam.steamfeed.objects.ApiClient
+import com.eicnam.steamfeed.viewmodel.GameViewModel
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        initGameList()
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
 
         val navView: BottomNavigationView = binding.navView
 
@@ -31,5 +39,19 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+    }
+
+    private fun initGameList() {
+        // Create Service
+        CoroutineScope(Dispatchers.IO).launch {
+            val gameViewModel = GameViewModel(applicationContext)
+            val response = ApiClient.apiService.getGames()
+            if (response.isSuccessful) {
+                val body: Applist = response.body() ?: throw IllegalStateException()
+                gameViewModel.insertAll(body.applist.apps)
+            } else {
+                println(response.errorBody())
+            }
+        }
     }
 }
