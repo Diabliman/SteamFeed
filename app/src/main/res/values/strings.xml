@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">SteamFeed</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_home">Feed</string>
+    <string name="title_dashboard">Search</string>
+    <string name="title_notifications">Subscribed</string>
 </resources>
