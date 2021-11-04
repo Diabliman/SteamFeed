@@ -13,3 +13,13 @@ data class News(
     val feed_type: String? = null,
     val appid: String? = null
 )
+
+data class AppNews(
+    val appid: String,
+    val newsitems: List<News>,
+    val count: Int
+)
+
+data class NewsList(
+    val appnews: AppNews
+)

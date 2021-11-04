@@ -8,6 +8,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.eicnam.steamfeed.databinding.ActivityMainBinding
 import com.eicnam.steamfeed.model.Applist
+import com.eicnam.steamfeed.model.News
 import com.eicnam.steamfeed.objects.ApiClient
 import com.eicnam.steamfeed.viewmodel.GameViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -21,6 +22,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         initGameList()
+        getNews()
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -42,7 +44,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initGameList() {
-        // Create Service
         CoroutineScope(Dispatchers.IO).launch {
             val gameViewModel = GameViewModel(applicationContext)
             val response = ApiClient.apiService.getGames()
@@ -53,5 +54,21 @@ class MainActivity : AppCompatActivity() {
                 println(response.errorBody())
             }
         }
+    }
+
+    private fun getNews() {
+        CoroutineScope(Dispatchers.IO).launch {
+            val gameViewModel = GameViewModel(applicationContext)
+            val subbedGames = gameViewModel.getSubbedGames()
+
+            val newsList: List<News> = subbedGames
+                .map { ApiClient.apiService.getNewsPerGames(it.appid) }
+                .filter { it.isSuccessful }
+                .map { it.body()!! }
+                .flatMap { it.appnews.newsitems }
+
+            println(newsList)
+        }
+
     }
 }

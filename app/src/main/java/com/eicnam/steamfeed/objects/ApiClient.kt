@@ -8,7 +8,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiClient {
-    private const val BASE_URL: String = "http://api.steampowered.com/ISteamApps/"
+    private const val BASE_URL: String = "https://api.steampowered.com/"
 
     private val gson: Gson by lazy {
         GsonBuilder().setLenient().create()
