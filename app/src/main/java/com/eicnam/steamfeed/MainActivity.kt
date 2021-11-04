@@ -1,6 +1,8 @@
 package com.eicnam.steamfeed
 
 import android.os.Bundle
+import android.webkit.WebView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -11,7 +13,6 @@ import com.eicnam.steamfeed.model.Applist
 import com.eicnam.steamfeed.model.News
 import com.eicnam.steamfeed.objects.ApiClient
 import com.eicnam.steamfeed.viewmodel.GameViewModel
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -21,13 +22,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        initGameList()
-        getNews()
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
 
         val navView: BottomNavigationView = binding.navView
 
