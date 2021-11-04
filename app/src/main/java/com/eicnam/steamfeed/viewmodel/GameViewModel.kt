@@ -11,12 +11,24 @@ class GameViewModel(context: Context) : ViewModel() {
     private val repository: GameRepository =
         GameRepository(GameDatabase.getDBConnection(context).gameDao())
 
-    fun insertAll(games: List<Game>) {
+    suspend fun insertAll(games: List<Game>) {
         repository.insertAll(games)
     }
 
     fun getAll(): List<Game> {
         return repository.getAll()
+    }
+
+    fun subscribe(id: String) {
+        repository.subscribe(id)
+    }
+
+    fun unSubscribe(id: String) {
+        repository.unSubscribe(id)
+    }
+
+    fun getSubbedGames(): List<Game> {
+        return repository.getSubbedGames()
     }
 
 

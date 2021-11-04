@@ -21,4 +21,7 @@ interface GameDao {
 
     @Query("UPDATE game SET subbed=0 where appid=:id")
     fun unSubGame(id: String)
+
+    @Query("SELECT * FROM game WHERE subbed=1")
+    fun getSubbedGames(): List<Game>
 }

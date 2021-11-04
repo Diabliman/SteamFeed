@@ -1,18 +1,14 @@
 package com.eicnam.steamfeed.repository
 
-import android.content.Context
 import androidx.annotation.WorkerThread
-import androidx.room.Room
-import com.eicnam.steamfeed.MainActivity
 import com.eicnam.steamfeed.model.Game
 import com.eicnam.steamfeed.model.GameDao
-import com.eicnam.steamfeed.model.GameDatabase
 
 class GameRepository(private val gameDao: GameDao) {
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    fun insertAll(games:List<Game>){
+    suspend fun insertAll(games: List<Game>) {
         gameDao.insertAll(games)
     }
 
@@ -20,7 +16,17 @@ class GameRepository(private val gameDao: GameDao) {
         return gameDao.getAll()
     }
 
+    fun subscribe(id: String) {
+        gameDao.subGame(id)
+    }
 
+    fun unSubscribe(id: String) {
+        gameDao.unSubGame(id)
+    }
+
+    fun getSubbedGames(): List<Game> {
+        return gameDao.getSubbedGames()
+    }
 
 
 }
