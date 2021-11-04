@@ -13,7 +13,6 @@ import com.eicnam.steamfeed.model.Applist
 import com.eicnam.steamfeed.model.News
 import com.eicnam.steamfeed.objects.ApiClient
 import com.eicnam.steamfeed.viewmodel.GameViewModel
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
