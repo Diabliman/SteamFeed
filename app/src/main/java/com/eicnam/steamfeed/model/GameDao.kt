@@ -1,5 +1,6 @@
 package com.eicnam.steamfeed.model
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 
@@ -12,10 +13,11 @@ interface GameDao {
     fun delete(game: Game)
 
     @Query("SELECT * FROM game")
-    fun getAll(): List<Game>
+    fun getAll(): Flow<List<Game>>
 
-    @Query("SELECT * FROM game WHERE name LIKE :search")
-    fun findGamesByNameStart(search: String): Flow<List<Game>>
+    @Query("SELECT * FROM game WHERE name LIKE :search LIMIT 20")
+    fun findGamesByNameStart(search: String): LiveData<List<Game>>
+
 
     @Query("UPDATE game SET subbed=1 where appid=:id")
     fun subGame(id: String)

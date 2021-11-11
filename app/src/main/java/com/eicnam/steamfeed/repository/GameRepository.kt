@@ -1,6 +1,7 @@
 package com.eicnam.steamfeed.repository
 
 import androidx.annotation.WorkerThread
+import androidx.lifecycle.LiveData
 import com.eicnam.steamfeed.model.Game
 import com.eicnam.steamfeed.model.GameDao
 import kotlinx.coroutines.flow.Flow
@@ -13,11 +14,11 @@ class GameRepository(private val gameDao: GameDao) {
         gameDao.insertAll(games)
     }
 
-    fun getAll(): List<Game> {
+    fun getAll(): Flow<List<Game>> {
         return gameDao.getAll()
     }
 
-    fun findGamesByNameStart(gameName : String ): Flow<List<Game>> {
+    fun findGamesByNameStart(gameName : String ): LiveData<List<Game>> {
         return gameDao.findGamesByNameStart(gameName)
     }
 

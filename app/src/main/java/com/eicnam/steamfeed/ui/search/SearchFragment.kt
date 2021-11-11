@@ -2,10 +2,12 @@ package com.eicnam.steamfeed.ui.search
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.eicnam.steamfeed.R
@@ -15,9 +17,13 @@ import com.eicnam.steamfeed.util.onQueryTextChanged
 import com.eicnam.steamfeed.viewmodel.GameViewModel
 import com.eicnam.steamfeed.viewmodel.GameViewModelFactory
 
-class SearchFragment : Fragment() {
+class SearchFragment : Fragment(){
+
 
     private val searchViewModel : GameViewModel by viewModels { GameViewModelFactory(context) }
+    private val searchadapter : SearchItemsAdapter by lazy { SearchItemsAdapter() }
+
+
     //private lateinit var searchViewModel: GameViewModel
     private var _binding: FragmentSearchBinding? = null
 
@@ -25,44 +31,31 @@ class SearchFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
+    @SuppressLint("FragmentLiveDataObserve")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         setHasOptionsMenu(true)
-        //searchViewModel = ViewModelProvider(this)[GameViewModel::class.java]
-
 
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-
-
-  /*      searchViewModel.text.observe(viewLifecycleOwner, Observer {
-
-        })
-*/
         //Search View items init
-        val itemModelList = ArrayList<Game>()
-
-
 
         val recyclerview = root.findViewById<RecyclerView>(R.id.recyclerview_search)
-
-        val adapter = SearchItemsAdapter()
         _binding.apply {
             recyclerview.apply {
-                recyclerview.adapter = adapter
-                adapter.setData(itemModelList)
+                recyclerview.adapter = searchadapter
                 recyclerview.layoutManager = LinearLayoutManager(root.context)
                 setHasFixedSize(true)
 
             }
         }
-        searchViewModel.games.observe(viewLifecycleOwner){
-            adapter.setData(it as ArrayList<Game>)
-        }
+        searchViewModel.games.observe(this, {
+            searchadapter.setData(it as ArrayList<Game>)
+        })
         return root
     }
 
@@ -83,21 +76,17 @@ class SearchFragment : Fragment() {
             setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW or MenuItem.SHOW_AS_ACTION_IF_ROOM)
             actionView = searchView
         }
-/*        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
-            override fun onQueryTextSubmit(p0: String?): Boolean {
-                return false
-            }
 
-            override fun onQueryTextChange(p0: String?): Boolean {
-                searchView.onQueryTextChanged {
+        searchView.onQueryTextChanged { it ->
+            val searchQuery = "%$it%"
+            searchViewModel.findGamesByNameStart(searchQuery).observe(this, Observer{ list ->
+                list.let {
+                    searchadapter.setData(list as ArrayList<Game>)
+                    searchadapter.notifyDataSetChanged()
 
+                    Log.e("List = ", list.toString())
                 }
-                return true
-            }
-        })    */
-        searchView.onQueryTextChanged {
-            searchViewModel.searchQuery.value = it
+            })
         }
     }
-
 }
