@@ -12,7 +12,11 @@ data class News(
     val feedname: String? = null,
     val feed_type: String? = null,
     val appid: String? = null
-)
+) {
+    fun getGameBanner(): String {
+        return "https://cdn.akamai.steamstatic.com/steam/apps/" + this.appid + "/header.jpg"
+    }
+}
 
 data class AppNews(
     val appid: String,
@@ -23,3 +27,4 @@ data class AppNews(
 data class NewsList(
     val appnews: AppNews
 )
+
