@@ -1,6 +1,7 @@
 package com.eicnam.steamfeed.model
 
 import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface GameDao {
@@ -14,7 +15,7 @@ interface GameDao {
     fun getAll(): List<Game>
 
     @Query("SELECT * FROM game WHERE name LIKE :search")
-    fun findGamesByNameStart(search: String): List<Game>
+    fun findGamesByNameStart(search: String): Flow<List<Game>>
 
     @Query("UPDATE game SET subbed=1 where appid=:id")
     fun subGame(id: String)

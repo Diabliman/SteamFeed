@@ -3,4 +3,6 @@
     <string name="title_home">Feed</string>
     <string name="title_dashboard">Search</string>
     <string name="title_notifications">Subscribed</string>
+    <string name="search">Search</string>
+
 </resources>

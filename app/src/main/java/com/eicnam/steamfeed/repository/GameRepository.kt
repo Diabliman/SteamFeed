@@ -3,6 +3,7 @@ package com.eicnam.steamfeed.repository
 import androidx.annotation.WorkerThread
 import com.eicnam.steamfeed.model.Game
 import com.eicnam.steamfeed.model.GameDao
+import kotlinx.coroutines.flow.Flow
 
 class GameRepository(private val gameDao: GameDao) {
 
@@ -16,6 +17,10 @@ class GameRepository(private val gameDao: GameDao) {
         return gameDao.getAll()
     }
 
+    fun findGamesByNameStart(gameName : String ): Flow<List<Game>> {
+        return gameDao.findGamesByNameStart(gameName)
+    }
+
     fun subscribe(id: String) {
         gameDao.subGame(id)
     }
@@ -23,6 +28,8 @@ class GameRepository(private val gameDao: GameDao) {
     fun unSubscribe(id: String) {
         gameDao.unSubGame(id)
     }
+
+
 
     fun getSubbedGames(): List<Game> {
         return gameDao.getSubbedGames()
