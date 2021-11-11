@@ -18,8 +18,8 @@ class GameRepository(private val gameDao: GameDao) {
         return gameDao.getAll()
     }
 
-    fun findGamesByNameStart(gameName : String ): LiveData<List<Game>> {
-        return gameDao.findGamesByNameStart(gameName)
+    fun findGamesByNameStart(gameName: String): LiveData<List<Game>> {
+        return gameDao.findGamesByNameStart("%$gameName%")
     }
 
     fun subscribe(id: String) {
@@ -29,7 +29,6 @@ class GameRepository(private val gameDao: GameDao) {
     fun unSubscribe(id: String) {
         gameDao.unSubGame(id)
     }
-
 
 
     fun getSubbedGames(): List<Game> {

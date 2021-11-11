@@ -17,11 +17,11 @@ import com.eicnam.steamfeed.util.onQueryTextChanged
 import com.eicnam.steamfeed.viewmodel.GameViewModel
 import com.eicnam.steamfeed.viewmodel.GameViewModelFactory
 
-class SearchFragment : Fragment(){
+class SearchFragment : Fragment() {
 
 
-    private val searchViewModel : GameViewModel by viewModels { GameViewModelFactory(context) }
-    private val searchadapter : SearchItemsAdapter by lazy { SearchItemsAdapter() }
+    private val searchViewModel: GameViewModel by viewModels { GameViewModelFactory(context) }
+    private val searchadapter: SearchItemsAdapter by lazy { SearchItemsAdapter() }
 
 
     //private lateinit var searchViewModel: GameViewModel
@@ -78,8 +78,8 @@ class SearchFragment : Fragment(){
         }
 
         searchView.onQueryTextChanged { it ->
-            val searchQuery = "%$it%"
-            searchViewModel.findGamesByNameStart(searchQuery).observe(this, Observer{ list ->
+            val searchQuery = it
+            searchViewModel.findGamesByNameStart(searchQuery).observe(this, Observer { list ->
                 list.let {
                     searchadapter.setData(list as ArrayList<Game>)
                     searchadapter.notifyDataSetChanged()

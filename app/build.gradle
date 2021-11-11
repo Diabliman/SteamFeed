@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.eicnam.steamfeed"
-        minSdk 24
+        minSdk 26
         targetSdk 31
         versionCode 1
         versionName "1.0"
@@ -60,6 +60,7 @@ dependencies {
     testImplementation('org.junit.jupiter:junit-jupiter')
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     implementation "androidx.work:work-runtime:2.7.0"
+    implementation 'com.squareup.picasso:picasso:2.71828'
 
     def room_version = "2.3.0"
 

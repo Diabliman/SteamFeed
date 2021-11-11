@@ -1,29 +1,27 @@
 package com.eicnam.steamfeed.ui.feed
 
-import android.app.Activity
-import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.WebView
-import android.widget.AdapterView
+import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.app.ActivityCompat.startActivity
-import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.recyclerview.widget.RecyclerView
 import com.eicnam.steamfeed.R
-import com.google.android.material.internal.ContextUtils
+import com.eicnam.steamfeed.model.News
+import com.squareup.picasso.Picasso
 
 
-class CustomAdapter(private val mList: List<ItemsViewModel>) : RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
-    private lateinit var mListener : onItemClickListener
+class CustomAdapter() :
+    RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
+    private lateinit var mListener: onItemClickListener
+    lateinit var mList: List<News>
+
 
     interface onItemClickListener {
         fun onItemClick(position: Int)
     }
 
-    fun setOnClickListener(listener: onItemClickListener){
+    fun setOnClickListener(listener: onItemClickListener) {
         mListener = listener
     }
 
@@ -39,13 +37,13 @@ class CustomAdapter(private val mList: List<ItemsViewModel>) : RecyclerView.Adap
     // binds the list items to a view
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        val ItemsViewModel = mList[position]
+        val news = mList[position]
 
         // sets the text to the textview from our itemHolder class
-        holder.textView_title.text = ItemsViewModel.title
-        holder.textView_contents.text = ItemsViewModel.contents
-        holder.textView_name.text = ItemsViewModel.name
-        holder.textView_date.text = ItemsViewModel.date
+        holder.textView_title.text = news.title
+        Picasso.get().load(news.getGameBanner()).into(holder.imageView_banner)
+        holder.textView_feedname.text = news.feedlabel
+        holder.textView_date.text = news.getDate()
     }
 
     // return the number of the items in the list
@@ -53,11 +51,16 @@ class CustomAdapter(private val mList: List<ItemsViewModel>) : RecyclerView.Adap
         return mList.size
     }
 
+    fun setData(newsList: List<News>) {
+        this.mList = newsList
+    }
+
     // Holds the views for adding it to image and text
-    class ViewHolder(ItemView: View, listener : onItemClickListener) : RecyclerView.ViewHolder(ItemView) {
+    class ViewHolder(ItemView: View, listener: onItemClickListener) :
+        RecyclerView.ViewHolder(ItemView) {
         val textView_title: TextView = itemView.findViewById(R.id.textView_title)
-        val textView_contents: TextView = itemView.findViewById(R.id.textView_content)
-        val textView_name: TextView = itemView.findViewById(R.id.textView_name)
+        var imageView_banner: ImageView = itemView.findViewById(R.id.imageView_banner)
+        val textView_feedname: TextView = itemView.findViewById(R.id.textView_feedname)
         val textView_date: TextView = itemView.findViewById(R.id.textView_date)
 
         init {
@@ -67,4 +70,5 @@ class CustomAdapter(private val mList: List<ItemsViewModel>) : RecyclerView.Adap
         }
 
     }
+
 }
