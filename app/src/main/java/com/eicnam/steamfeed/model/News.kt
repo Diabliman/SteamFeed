@@ -2,6 +2,7 @@ package com.eicnam.steamfeed.model
 
 import java.time.Instant
 import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
 data class News(
     val gid: String,
@@ -21,9 +22,12 @@ data class News(
     }
 
     fun getDate(): String {
-        return Instant.ofEpochSecond(date)
+        val localDate = Instant.ofEpochSecond(date)
             .atZone(ZoneId.systemDefault())
-            .toLocalDateTime().toString()
+            .toLocalDateTime()
+
+        val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+        return dateTimeFormatter.format(localDate)
     }
 }
 

@@ -54,7 +54,10 @@ class FeedFragment : Fragment() {
         }
         // ArrayList of class News
 
-        var data = searchViewModel.getNews()
+        var data: MutableList<News> = searchViewModel.getNews() as MutableList<News>
+
+        data.sortByDescending { it.date }
+
         customAdapter.setData(data)
 
         // Setting the Adapter with the recyclerview
