@@ -17,8 +17,7 @@ interface GameDao {
 
     @Query("SELECT * FROM game WHERE name LIKE :search LIMIT 20")
     fun findGamesByNameStart(search: String): LiveData<List<Game>>
-
-
+    
     @Query("UPDATE game SET subbed=1 where appid=:id")
     fun subGame(id: String)
 

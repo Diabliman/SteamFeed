@@ -59,8 +59,9 @@ class FeedFragment : Fragment() {
         }
         // ArrayList of class News
 
-        var data = emptyList<News>()
-        data = searchViewModel.getNews()
+        var data: MutableList<News> = searchViewModel.getNews() as MutableList<News>
+
+        data.sortByDescending { it.date }
 
         customAdapter.setData(data)
 

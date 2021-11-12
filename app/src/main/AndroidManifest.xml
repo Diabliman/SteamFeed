@@ -15,11 +15,9 @@
         android:theme="@style/Theme.SteamFeed"
         android:allowBackup="true"
         android:fullBackupContent="true">
-        android:theme="@style/Theme.SteamFeed">
         <activity
             android:name=".ui.webactivity.WebviewActivity"
-            android:parentActivityName=".MainActivity">
-        </activity>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
