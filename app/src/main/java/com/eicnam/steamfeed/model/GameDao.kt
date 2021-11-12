@@ -26,5 +26,5 @@ interface GameDao {
     fun unSubGame(id: String)
 
     @Query("SELECT * FROM game WHERE subbed=1")
-    fun getSubbedGames(): List<Game>
+    suspend fun getSubbedGames(): List<Game>
 }

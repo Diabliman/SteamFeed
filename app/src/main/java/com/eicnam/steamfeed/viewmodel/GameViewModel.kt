@@ -38,7 +38,8 @@ class GameViewModel(context: Context) : ViewModel() {
         repository.unSubscribe(id)
     }
 
-    fun getSubbedGames(): List<Game> {
+    suspend fun getSubbedGames(): List<Game> {
+
         return repository.getSubbedGames()
     }
 
