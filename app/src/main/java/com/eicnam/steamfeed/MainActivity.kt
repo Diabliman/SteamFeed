@@ -1,8 +1,7 @@
 package com.eicnam.steamfeed
 
 import android.os.Bundle
-import android.webkit.WebView
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -10,9 +9,10 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.eicnam.steamfeed.databinding.ActivityMainBinding
 import com.eicnam.steamfeed.model.Applist
-import com.eicnam.steamfeed.model.News
 import com.eicnam.steamfeed.objects.ApiClient
 import com.eicnam.steamfeed.viewmodel.GameViewModel
+import com.eicnam.steamfeed.viewmodel.GameViewModelFactory
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -21,11 +21,14 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        initGames()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
 
         val navView: BottomNavigationView = binding.navView
 
@@ -41,32 +44,17 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
     }
 
-    private fun initGameList() {
+    fun initGames() {
+        val searchViewModel: GameViewModel by viewModels { GameViewModelFactory(applicationContext) }
+
         CoroutineScope(Dispatchers.IO).launch {
-            val gameViewModel = GameViewModel(applicationContext)
             val response = ApiClient.apiService.getGames()
             if (response.isSuccessful) {
                 val body: Applist = response.body() ?: throw IllegalStateException()
-                gameViewModel.insertAll(body.applist.apps)
+                searchViewModel.insertAll(body.applist.apps)
             } else {
                 println(response.errorBody())
             }
         }
-    }
-
-    private fun getNews() {
-        CoroutineScope(Dispatchers.IO).launch {
-            val gameViewModel = GameViewModel(applicationContext)
-            val subbedGames = gameViewModel.getSubbedGames()
-
-            val newsList: List<News> = subbedGames
-                .map { ApiClient.apiService.getNewsPerGames(it.appid) }
-                .filter { it.isSuccessful }
-                .map { it.body()!! }
-                .flatMap { it.appnews.newsitems }
-
-            println(newsList)
-        }
-
     }
 }
