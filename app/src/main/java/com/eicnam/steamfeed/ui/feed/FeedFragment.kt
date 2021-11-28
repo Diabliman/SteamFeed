@@ -39,14 +39,9 @@ class FeedFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        feedViewModel =
-            ViewModelProvider(this).get(FeedViewModel::class.java)
-
         _binding = FragmentFeedBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        feedViewModel.text.observe(viewLifecycleOwner, Observer {
-        })
 
         val recyclerview = root.findViewById<RecyclerView>(R.id.recyclerview_feed)
         // this creates a vertical layout Manager
@@ -59,9 +54,7 @@ class FeedFragment : Fragment() {
         }
         // ArrayList of class News
 
-        var data = emptyList<News>()
-        data = searchViewModel.getNews()
-
+        var data = searchViewModel.getNews()
         customAdapter.setData(data)
 
         // Setting the Adapter with the recyclerview

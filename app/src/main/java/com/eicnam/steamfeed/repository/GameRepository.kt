@@ -23,7 +23,7 @@ class GameRepository(private val gameDao: GameDao) {
     }
 
     fun subscribe(id: String) {
-        gameDao.subGame("^$id$")
+        gameDao.subGame(id)
     }
 
     fun unSubscribe(id: String) {

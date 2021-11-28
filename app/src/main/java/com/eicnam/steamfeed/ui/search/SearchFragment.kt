@@ -16,7 +16,6 @@ import com.eicnam.steamfeed.model.Game
 import com.eicnam.steamfeed.util.onQueryTextChanged
 import com.eicnam.steamfeed.viewmodel.GameViewModel
 import com.eicnam.steamfeed.viewmodel.GameViewModelFactory
-import java.util.stream.Collectors
 
 class SearchFragment : Fragment() {
 

@@ -1,9 +1,10 @@
 package com.eicnam.steamfeed.ui.search
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.eicnam.steamfeed.R
 import com.eicnam.steamfeed.databinding.SearchRowLayoutBinding
 import com.eicnam.steamfeed.model.Game
 import com.eicnam.steamfeed.viewmodel.GameViewModel
@@ -28,30 +29,31 @@ class SearchItemsAdapter(val viewModel : GameViewModel) : RecyclerView.Adapter<S
         )
     }
 
+    @SuppressLint("ResourceAsColor")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val searchItem = itemsList[position]
         holder.binding.textViewSearchItem.text = searchItem.name
 
-        val list : List<String> = runBlocking {
+        val list: List<String> = runBlocking {
             CoroutineScope(Dispatchers.IO).async {
                 viewModel.getSubbedGames().stream().map { it.appid }.collect(Collectors.toList())
             }.await()
         }
 
-        if(list.contains(searchItem.appid)){
-            holder.binding.buttonFollow.text = "Subbed"
+        if (list.contains(searchItem.appid)) {
+            holder.binding.buttonFollow.isClickable = false
+            holder.binding.buttonFollow.isEnabled = false
+            holder.binding.buttonFollow.setBackgroundColor(R.color.gray)
         }
 
-        runBlocking {
-            CoroutineScope(Dispatchers.IO).launch {
-                holder.binding.buttonFollow.setOnClickListener {
+        holder.binding.buttonFollow.setOnClickListener {
+            runBlocking {
+                CoroutineScope(Dispatchers.IO).launch {
                     viewModel.subscribe(searchItem.appid)
                     notifyItemChanged(position)
                 }
             }
         }
-
-
     }
 
 
