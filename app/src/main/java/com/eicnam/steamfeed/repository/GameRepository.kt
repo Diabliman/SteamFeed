@@ -31,9 +31,10 @@ class GameRepository(private val gameDao: GameDao) {
     }
 
 
-    fun getSubbedGames(): List<Game> {
+    suspend fun getSubbedGames(): List<Game> {
         return gameDao.getSubbedGames()
     }
+
 
 
 }

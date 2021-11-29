@@ -22,6 +22,7 @@ class GameViewModel(context: Context) : ViewModel() {
 
     val games = MutableLiveData<List<Game>>()
 
+
     suspend fun insertAll(games: List<Game>) {
         repository.insertAll(games)
     }
@@ -38,7 +39,7 @@ class GameViewModel(context: Context) : ViewModel() {
         repository.unSubscribe(id)
     }
 
-    fun getSubbedGames(): List<Game> {
+    suspend fun getSubbedGames(): List<Game> {
         return repository.getSubbedGames()
     }
 

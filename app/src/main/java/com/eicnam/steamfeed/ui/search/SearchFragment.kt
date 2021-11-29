@@ -20,8 +20,9 @@ import com.eicnam.steamfeed.viewmodel.GameViewModelFactory
 class SearchFragment : Fragment() {
 
 
+
     private val searchViewModel: GameViewModel by viewModels { GameViewModelFactory(context) }
-    private val searchadapter: SearchItemsAdapter by lazy { SearchItemsAdapter() }
+    private val searchadapter: SearchItemsAdapter by lazy { SearchItemsAdapter(searchViewModel)}
 
 
     //private lateinit var searchViewModel: GameViewModel
@@ -83,7 +84,6 @@ class SearchFragment : Fragment() {
                 list.let {
                     searchadapter.setData(list as ArrayList<Game>)
                     searchadapter.notifyDataSetChanged()
-
                     Log.e("List = ", list.toString())
                 }
             })
