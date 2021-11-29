@@ -11,7 +11,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/card_background">
 
         <LinearLayout
             android:id="@+id/linearLayout"
@@ -27,10 +28,11 @@
             <TextView
                 android:id="@+id/textView_title"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="48dp"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                tools:text="Title" />
+                tools:text="Title"
+                android:textColor="@color/text_color" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -65,14 +67,16 @@
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                tools:text="Feedname" />
+                tools:text="Feedname"
+                android:textColor="@color/text_color" />
 
             <TextView
                 android:id="@+id/textView_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="right"
-                tools:text="Date" />
+                tools:text="Date"
+                android:textColor="@color/text_color" />
 
         </LinearLayout>
 

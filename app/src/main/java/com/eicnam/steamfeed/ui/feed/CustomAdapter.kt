@@ -41,7 +41,8 @@ class CustomAdapter() :
 
         // sets the text to the textview from our itemHolder class
         holder.textView_title.text = news.title
-        Picasso.get().load(news.getGameBanner()).into(holder.imageView_banner)
+        Picasso.get().load(news.getGameBanner()).placeholder(R.drawable.ic_banner_foreground)
+            .into(holder.imageView_banner)
         holder.textView_feedname.text = news.feedlabel
         holder.textView_date.text = news.getDate()
     }
