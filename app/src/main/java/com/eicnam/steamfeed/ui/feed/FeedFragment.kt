@@ -9,8 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.eicnam.steamfeed.R
@@ -26,7 +24,7 @@ class FeedFragment : Fragment() {
     private var _binding: FragmentFeedBinding? = null
     private val searchViewModel: GameViewModel by viewModels { GameViewModelFactory(requireContext()) }
     private val customAdapter: CustomAdapter by lazy { CustomAdapter() }
-    private lateinit var newsList: Collection<News>
+    private lateinit var newsList: MutableList<News>
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -54,8 +52,11 @@ class FeedFragment : Fragment() {
         }
         // ArrayList of class News
 
-        var data = searchViewModel.getNews()
-        customAdapter.setData(data)
+        newsList = searchViewModel.getNews() as MutableList<News>
+
+        newsList.sortByDescending { it.date }
+
+        customAdapter.setData(newsList)
 
         // Setting the Adapter with the recyclerview
         customAdapter.setOnClickListener(object : CustomAdapter.onItemClickListener {
@@ -64,8 +65,8 @@ class FeedFragment : Fragment() {
                     //Toast.makeText(activity,data[position].url, Toast.LENGTH_SHORT).show()
 
                     val intent = Intent(activity, WebviewActivity::class.java)
-                    Log.e("URL=", data[position].url.toString())
-                    intent.putExtra("url", data[position].url)
+                    Log.e("URL=", newsList[position].url.toString())
+                    intent.putExtra("url", newsList[position].url)
                     it.startActivity(intent)
                 }
             }
